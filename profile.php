@@ -1,16 +1,27 @@
 <?php
-include('session.php');
+  session_start();
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
 <title>Your Home Page</title>
-<link href="style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<div id="profile">
-<b id="welcome">Welcome : <i><?php echo $login_session; ?></i></b>
-<b id="logout"><a href="logout.php">Log Out</a></b>
+
+<?php
+if(isset($_SESSION['username'])){
+  echo "Your name transfered YO!";
+  echo "<br>";
+  echo $_SESSION['username'];
+}
+?>
+
+<div>
+<p>Welcome : <?php echo $_SESSION['username']; ?></p>
+<a href="logout.php">Log Out</a>
 </div>
+
+
 </body>
 </html>

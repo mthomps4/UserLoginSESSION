@@ -1,13 +1,19 @@
 <?php
+session_start();
+include('connection.php'); // Includes Login Script
+
+
 if (isset($_POST['submit'])) {
   if (empty($_POST['username']) || empty($_POST['password'])) {
-    $_SESSION['emptyLoginMsg'] = "Username or Password is empty.";
+    $_SESSION['errorLoginMsg'] = "Username or Password is empty.";
+    header("Location: index.php");
   }
   else
     {
       // Define $username and $password
-      $username=$_POST['username'];
-      $password=$_POST['password'];
+      $username= $_POST['username'];
+      $password= $_POST['password'];
+      $password= md5($password);
 
       $sql="SELECT `password` FROM `login` WHERE `username` = ? LIMIT 1";
 
@@ -20,8 +26,22 @@ if (isset($_POST['submit'])) {
        return false;
       }
         $DataPassword = $results->fetch(PDO::FETCH_ASSOC);
-        var_dump($DataPassword);
-        echo $DataPassword['password'];
+        $DataPassword = md5($DataPassword['password']);
+
+
+        if($password === $DataPassword)
+        {
+          $_SESSION['logged_in'] = true;
+          $_SESSION['username'] = $username;
+          header("Location: profile.php");
+        }
+        else{
+          $_SESSION['logged_in'] = false;
+          $_SESSION['errorLoginMsg'] = "Username and Password do not match!";
+          header("Location: index.php");
+        }
+
+
     }//else
   }
 //if empty

@@ -1,11 +1,25 @@
 
 <?php
-include('connection.php'); // Includes Login Script
-include('login.php');
+session_id();
+session_start();
 
-if(isset($_SESSION['logged_in'])){
-  header("location: profile.php");
+//var_dump(get_defined_vars());
+if(isset($_SESSION['DataPassword'])){
+  echo "DataPassword";
+  var_dump( $_SESSION['DataPassword']);
+  echo "<br>";
 }
+
+
+if(isset($_SESSION['UserPassword'])){
+  echo "UserPassword: ";
+  var_dump($_SESSION['UserPassword']);
+  echo "<br>";
+}
+
+  if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true){
+    header("location: profile.php");
+  }
 
 ?>
 
@@ -13,30 +27,31 @@ if(isset($_SESSION['logged_in'])){
 <!DOCTYPE html>
 <html>
 <head>
-<title>Login Form in PHP with Session</title>
+<title>Login</title>
 <link href="style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div id="main">
-<h1>PHP Login Session Example</h1>
+<h1>Login</h1>
 <div id="login">
+
 <h2>Login Form</h2>
 
 <?php
-if(isset($_SESSION['emptyLoginMsg'])){
-    var_dump($_SESSION['emptyLoginMsg']);
-    echo "It's Set!";
-}
+  if(isset($_SESSION['errorLoginMsg'])){
+      echo "<h4>" . $_SESSION['errorLoginMsg'] . "</h4>";
+  }
 ?>
 
-
-    <form action="login.php //Make LOGIN.php a LOGIN FUNCTION" method="post">
+    <form action="login.php" method="post">
     <label>UserName :</label>
     <input id="username" name="username" placeholder="username" type="text">
     <label>Password :</label>
     <input id="password" name="password" placeholder="**********" type="password">
     <input name="submit" type="submit" value=" Login ">
     </form>
+
+
 </div>
 </div>
 </body>
